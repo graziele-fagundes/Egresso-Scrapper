@@ -37,7 +37,8 @@ class Egresso:
 
         time.sleep(2) 
 
-        resultado_div = driver.find_element(By.CLASS_NAME, 'resultado')
+        # resultado_div = driver.find_element(By.CLASS_NAME, 'resultado')
+        resultado_div = driver.find_element(By.XPATH, '/html/body/form/div/div[4]/div/div/div/div[3]/div/div[3]')
         links = resultado_div.find_elements(By.TAG_NAME, 'a')
 
         for link in links:
@@ -97,20 +98,52 @@ def get_url_in_string(text):
         return None
     return url.group("url")
 
+
+def get_egressos():
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Runs Chrome in headless mode (without a GUI)
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--log-level=3")
+    service = Service(CHROMEDRIVER_PATH)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+
+    print("Getting egressos...")
+
+    driver.get('https://institucional.ufpel.edu.br/es/cursos/cod/3900')
+    # time.sleep(2)
+    egressos_tab = driver.find_element(By.ID, 'egre-sup')
+    egressos_tab.click()
+    # time.sleep(2)
+    show_all = driver.find_element(By.XPATH, '//*[@id="DataTables_Table_1_length"]/label/select/option[5]')
+    show_all.click()
+    egressos = driver.find_element(By.XPATH, '//*[@id="DataTables_Table_1"]/tbody')
+    egressos = egressos.find_elements(By.TAG_NAME, 'tr')
+
+    names = []
+    for egresso in egressos:
+        name = ' '.join([word for word in egresso.text.split() if not word.isdigit()])
+        names.append(name)
+
+    print(f"Found {len(names)} egressos.")
+    driver.quit()
+    return names
+
+
 def main():
-    names = ['ALESSANDRA ROSA GALVÃO', 'BRUNO DA SILVA VOLCAN', 'FREDERICO DAL SOGLIO RECKZIEGEL', 'GABRIEL DA SILVA BITTENCOURT']
+    names = get_egressos()
     egressos = []
     driver = setup_driver()
     
-    try:
-        for name in names:
-            egresso = Egresso(name)
-            egresso.scrape_lattes(driver)
-            egressos.append(egresso)
+    # try:
+    for name in names:
+        egresso = Egresso(name)
+        egresso.scrape_lattes(driver)
+        egressos.append(egresso)
 
-    except Exception as e:
-        print(f"Error during search: {e}")
-        return
+    # except Exception as e:
+    #     print(f"Error during search: {e}")
+    #     return
     
     print()
     for e in egressos:
