@@ -41,7 +41,7 @@ class Egresso:
         resultado_div = driver.find_element(By.XPATH, '/html/body/form/div/div[4]/div/div/div/div[3]/div/div[3]')
         links = resultado_div.find_elements(By.TAG_NAME, 'a')
 
-        for link in links:
+        for link in links[:3]:
             name = link.text
             print(f'Getting: {name}')
             link.click()
@@ -132,23 +132,24 @@ def get_egressos():
 
 def main():
     names = get_egressos()
+    limit = int(input("Quantos egressos deseja buscar? "))
+
     egressos = []
     driver = setup_driver()
-    
-    # try:
-    for name in names:
-        egresso = Egresso(name)
-        egresso.scrape_lattes(driver)
-        egressos.append(egresso)
-
-    # except Exception as e:
-    #     print(f"Error during search: {e}")
-    #     return
+    try:
+        for name in names[:limit]:
+            egresso = Egresso(name)
+            egresso.scrape_lattes(driver)
+            egressos.append(egresso)
+    except Exception as e:
+        print(f"Error during search: {e}")
+        return
     
     print()
+    print("-----------------------------------------------------------------------------------------")
     for e in egressos:
         print(e)
-        print("____________________________________________________________________________")
+        print("-----------------------------------------------------------------------------------------")
 
 if __name__ == "__main__":
     main()
