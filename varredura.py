@@ -20,10 +20,21 @@ class Varredura:
         self.egresso.atualizarLinkedin(self.linkedin[index])
 
     def iniciarVarredura(self, driver):
-        # Falta varredura do linkedin (precisa de login, pegar perfil do chrome logado)
         self.data = date.today()
         self.status = "Iniciada"
+        
+        self.varreduraLattes(driver)
+        self.varreduraLinkedin(driver)
+        self.status = "Concluída"
+        return
+    
+    def varreduraLinkedin(self, driver):
+        # Falta varredura do linkedin (precisa de login, pegar perfil do chrome logado)
+        print("Searching Linkedin...")
+        print("Linkedin done.")
+        return
 
+    def varreduraLattes(self, driver):
         query = self.egresso.nome
         print("Searching Lattes...")
 
@@ -36,7 +47,6 @@ class Varredura:
 
         time.sleep(2) 
 
-        # resultado_div = driver.find_element(By.CLASS_NAME, 'resultado')
         resultado_div = driver.find_element(By.XPATH, '/html/body/form/div/div[4]/div/div/div/div[3]/div/div[3]')
         links = resultado_div.find_elements(By.TAG_NAME, 'a')
 
@@ -68,6 +78,4 @@ class Varredura:
             time.sleep(1)
 
         print("Lattes done.")
-        self.status = "Concluída"
-        return
 

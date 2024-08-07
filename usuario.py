@@ -1,27 +1,9 @@
 class Usuario:
-    def __init__(self):
-        self.nome = ""
-        self.email = ""
-        self.senha = ""
-
-    def criar(self, nome, email, senha):
-        # Inserir no banco de dados
+    def __init__(self, nome, email, senha):
         self.nome = nome
         self.email = email
         self.senha = senha
 
-        return True
-    
-    def logar(self, email, senha):
-        # Verificar banco de dados
-        self.email = email
-        self.senha = senha
-
-        return True
-    
-    def deslogar(self):
-        return True
-
     def __str__(self):
-        return f"Nome: {self.nome}, Email: {self.email}"
+        return f"Nome: {self.nome}, Email: {self.email}, Senha: {self.senha}"
 

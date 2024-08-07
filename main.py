@@ -1,4 +1,4 @@
-from usuario import Usuario
+from auth import Auth
 from egresso import Egresso
 from varredura import Varredura
 
@@ -6,17 +6,15 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-import time
 
-from bs4 import BeautifulSoup
-from urllib.parse import urlparse
+CHROMEDRIVER_PATH = 'chrome/chromedriver.exe' 
 
-CHROMEDRIVER_PATH = 'chromedriver.exe' 
-
-def setup_driver():
+def setup_driver(headless):
     chrome_options = Options()
-    #chrome_options.add_argument("--headless")  # Runs Chrome in headless mode (without a GUI)
+
+    if headless:
+        chrome_options.add_argument("--headless")
+
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--log-level=3")
@@ -25,13 +23,7 @@ def setup_driver():
     return driver
 
 def get_egressos():
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Runs Chrome in headless mode (without a GUI)
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--log-level=3")
-    service = Service(CHROMEDRIVER_PATH)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver = setup_driver(True)
 
     print("Getting egressos...")
 
@@ -48,7 +40,7 @@ def get_egressos():
     egressos = []
     for egresso in egressosInfo:
         name = ' '.join([word for word in egresso.text.split() if not word.isdigit()])
-        egressos.append(Egresso(name, 'email', 'curso', 'anoFormacao'))
+        egressos.append(Egresso(name, 'anoFormacao'))
 
     print(f"Found {len(egressos)} egressos.")
     driver.quit()
@@ -57,24 +49,29 @@ def get_egressos():
 
 def main():
     # Login
+    auth = Auth()
     email = input("Digite seu email: ")
     senha = input("Digite sua senha: ")
-    usuario = Usuario()
-    if not usuario.logar(email, senha):
-        print("Falha ao logar.")
-        return
+    usuario = auth.login(email, senha)
 
-    # Scrappe egressos names
+    if usuario is None:
+        print("Usuário não encontrado.")
+        return
+    else:
+        print(f"Usuário logado: {usuario}")
+
+    # Scrappe egressos
     egressos = get_egressos()
 
-    # Varredura
+    # Varredura de egressos
     teste = egressos[0]
     print(teste)
 
     varredura = Varredura(teste)
-    varredura.iniciarVarredura(setup_driver())
+    varredura.iniciarVarredura(setup_driver(False))
 
     varredura.filtrarVarreduraLattes(0)
     print(teste)
+
 if __name__ == "__main__":
     main()
