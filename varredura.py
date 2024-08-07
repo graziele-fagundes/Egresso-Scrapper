@@ -20,23 +20,27 @@ class Varredura:
         self.egresso.atualizarLinkedin(self.linkedin[index])
 
     def iniciarVarredura(self, driver):
-        self.data = date.today()
-        self.status = "Iniciada"
+        print(f'Iniciando varredura para {self.egresso.nome}')
+
+        try:
+            self.data = date.today()
+            self.status = "Iniciada"
+            self.varreduraLattes(driver)
+            self.varreduraLinkedin(driver)
+            self.status = "Concluída"
+        except Exception as e:
+            self.status = "Erro"
+            print(f"Erro na varredura: {e}")
         
-        self.varreduraLattes(driver)
-        self.varreduraLinkedin(driver)
-        self.status = "Concluída"
+        print(f'Varredura para {self.egresso.nome} concluída')
         return
     
     def varreduraLinkedin(self, driver):
         # Falta varredura do linkedin (precisa de login, pegar perfil do chrome logado)
-        print("Searching Linkedin...")
-        print("Linkedin done.")
         return
 
     def varreduraLattes(self, driver):
         query = self.egresso.nome
-        print("Searching Lattes...")
 
         driver.get('https://buscatextual.cnpq.br/buscatextual/busca.do?metodo=apresentar')
         search_box = driver.find_element(By.NAME, 'textoBusca')
@@ -52,7 +56,6 @@ class Varredura:
 
         for link in links[:3]:
             name = link.text
-            print(f'Getting: {name}')
             link.click()
             time.sleep(2) 
             
@@ -76,6 +79,4 @@ class Varredura:
             self.lattes.append(lattes)
 
             time.sleep(1)
-
-        print("Lattes done.")
 

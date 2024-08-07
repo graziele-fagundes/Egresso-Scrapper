@@ -1,17 +1,23 @@
 from usuario import Usuario
+from db.main import Database
 
 class Auth:
-    def __init__(self):
+    def __init__(self, db: Database):
+        self.db = db
         pass
 
     def criarUsuario(self, nome, email, senha):
-        # Consulta banco de dados para verificar se o usuário já existe
-        # Se não existir, cria o usuário
-        usuario = Usuario(nome, email, senha)
-        return usuario
+        id = self.db.criarUsuario(nome, email, senha)
+         
+        if id is None:
+            return None
+ 
+        return Usuario(id, nome, email, senha)
     
     def login(self, email, senha):
-        # Consulta banco de dados para verificar se o usuário existe
-        # Se existir, retorna o usuário
-        usuario = Usuario("Nome", email, senha)
-        return usuario
+        user = self.db.login(email, senha)
+
+        if user is None:
+            return None
+        
+        return Usuario(user[0], user[1], user[2], user[3])
