@@ -80,3 +80,4 @@ class Varredura:
 
             time.sleep(1)
 
+        driver.quit()

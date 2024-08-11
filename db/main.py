@@ -153,7 +153,18 @@ class Database:
         finally:
             conn.close()
 
+    def deleteEgressos(self):
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
 
+        try:
+            cursor.execute('DELETE FROM Egresso')
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"Erro ao deletar egressos: {e}")
+        finally:
+            conn.close()
+            
     def getEgressos(self):
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
