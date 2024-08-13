@@ -2,30 +2,15 @@ from auth import Auth
 from egresso import Egresso
 from varredura import Varredura
 from db.main import Database
+from utils import setup_driver
 
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
 import tkinter as tk
 from tkinter import messagebox
 from threading import Thread
+import time
 
-CHROMEDRIVER_PATH = 'chrome/chromedriver.exe' 
-
-def setup_driver(headless):
-    chrome_options = Options()
-
-    if headless:
-        chrome_options.add_argument("--headless")
-
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--log-level=3")
-    service = Service(CHROMEDRIVER_PATH)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    return driver
 
 def get_egressos():
     driver = setup_driver(True)
@@ -46,7 +31,8 @@ def get_egressos():
     egressos = []
     for egresso in egressosInfo[:10]:
         name = ' '.join([word for word in egresso.text.split() if not word.isdigit()])
-        egressos.append(Egresso(name, 'anoFormacao', db))
+        anoFormacao = egresso.text.split()[-1]
+        egressos.append(Egresso(name, anoFormacao, db))
 
     print("Varredura de egressos concluída")
     driver.quit()
@@ -66,7 +52,7 @@ class App:
     def create_login_screen(self):
         self.clear_screen()
         self.root.title("Login")
-        self.root.geometry("250x150")
+        self.root.geometry("250x170")
         self.center_window(self.root)
         
         tk.Label(self.root, text="Email:").grid(row=0, column=0, padx=10, pady=10)
@@ -78,7 +64,42 @@ class App:
         self.senha_entry.grid(row=1, column=1, padx=10, pady=10)
 
         login_button = tk.Button(self.root, text="Login", command=self.validate_login)
-        login_button.grid(row=2, columnspan=2, pady=10)
+        login_button.grid(row=2, columnspan=2, pady=5)
+
+        register_button = tk.Button(self.root, text="Registrar", command=self.create_register_screen)
+        register_button.grid(row=3, columnspan=2, pady=5)
+
+    def create_register_screen(self):
+        self.clear_screen()
+        self.root.title("Registrar")
+        self.root.geometry("250x170")
+        self.center_window(self.root)
+        
+        tk.Label(self.root, text="Nome:").grid(row=0, column=0, padx=10, pady=10)
+        self.nome_entry = tk.Entry(self.root)
+        self.nome_entry.grid(row=0, column=1, padx=10, pady=10)
+
+        tk.Label(self.root, text="Email:").grid(row=1, column=0, padx=10, pady=10)
+        self.email_entry = tk.Entry(self.root)
+        self.email_entry.grid(row=1, column=1, padx=10, pady=10)
+
+        tk.Label(self.root, text="Senha:").grid(row=2, column=0, padx=10, pady=10)
+        self.senha_entry = tk.Entry(self.root, show="*")
+        self.senha_entry.grid(row=2, column=1, padx=10, pady=10)
+
+        register_button = tk.Button(self.root, text="Registrar", command=self.validate_register)
+        register_button.grid(row=3, columnspan=2, pady=10)
+
+    def validate_register(self):
+        nome = self.nome_entry.get()
+        email = self.email_entry.get()
+        senha = self.senha_entry.get()
+
+        try:
+            auth.criarUsuario(nome, email, senha)
+            self.create_login_screen()
+        except:
+            messagebox.showerror("Erro", "Erro ao criar usuário")
 
     def validate_login(self):
         email = self.email_entry.get()
@@ -166,35 +187,63 @@ class App:
             self.root.config(cursor="watch")
             varredura = Varredura(egresso)
             varredura.iniciarVarredura(setup_driver(True))
-            self.show_varredura_results(varredura, varredura.lattes)
+            self.show_varredura_results(varredura, varredura.lattes, varredura.linkedin)
             self.root.config(cursor="")
 
         # Inicia a thread para executar a tarefa de varredura
         Thread(target=tarefa_varredura).start()
 
-    def show_varredura_results(self, varredura, resultados):
+    def show_varredura_results(self, varredura, resultados_lattes, resultados_linkedin):
         varredura_window = tk.Toplevel(self.root)
-        varredura_window.title("Resultados da Varredura")
+        varredura_window.title("Resultados da Varredura para " + varredura.egresso.nome)
         varredura_window.geometry("500x300")
         self.center_window(varredura_window)
 
-        tk.Label(varredura_window, text="Resultados da Varredura:").pack(pady=10)
+        tk.Label(varredura_window, text="Lattes (double click):").pack(pady=10)
 
-        listbox = tk.Listbox(varredura_window)
-        listbox.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        listbox = tk.Listbox(varredura_window, height=5)
+        listbox.pack(fill=tk.X, expand=True, padx=10, pady=10)
 
-        for i, resultado in enumerate(resultados):
+        for i, resultado in enumerate(resultados_lattes):
             listbox.insert(tk.END, f"{resultado.nome} - {resultado.url}")
 
-        def on_select(event):
+        def on_select_lattes(event):
             selected_index = listbox.curselection()
             if selected_index:
                 index = selected_index[0] 
                 varredura.filtrarVarreduraLattes(index)
-                varredura_window.destroy()
-                self.display_egressos()
+                for i in range(len(resultados_lattes)):
+                    if i != index:
+                        listbox.itemconfig(i, fg="black", bg="white", selectbackground="white", selectforeground="black")
+                listbox.itemconfig(index, fg="red", bg="yellow", selectbackground="yellow", selectforeground="red")
+                
+        listbox.bind("<Double-1>", on_select_lattes)
 
-        listbox.bind("<Double-1>", on_select)
+        tk.Label(varredura_window, text="Linkedin (double click):").pack(pady=10)
+
+        listbox2 = tk.Listbox(varredura_window, height=5)
+        listbox2.pack(fill=tk.X, expand=True, padx=10, pady=10)
+
+        for i, resultado in enumerate(resultados_linkedin):
+            listbox2.insert(tk.END, f"{resultado.nome} - {resultado.url}")
+        
+        def on_select_linkedin(event):
+            selected_index = listbox2.curselection()
+            if selected_index:
+                index = selected_index[0] 
+                varredura.filtrarVarreduraLinkedin(index)
+                for i in range(len(resultados_linkedin)):
+                    if i != index:
+                        listbox2.itemconfig(i, fg="black", bg="white", selectbackground="white", selectforeground="black")
+                listbox2.itemconfig(index, fg="red", bg="yellow", selectbackground="yellow", selectforeground="red")
+        
+        listbox2.bind("<Double-1>", on_select_linkedin)
+
+        def on_close():
+            varredura_window.destroy()
+            self.display_egressos()
+
+        varredura_window.protocol("WM_DELETE_WINDOW", on_close)
 
     def clear_screen(self):
         for widget in self.root.winfo_children():
@@ -202,10 +251,6 @@ class App:
 
 if __name__ == "__main__":
     db.criarTabelas()
-    try:
-        auth.criarUsuario("Admin", "admin@gmail.com", "admin")
-    except:
-        pass
 
     root = tk.Tk()
     app = App(root)
