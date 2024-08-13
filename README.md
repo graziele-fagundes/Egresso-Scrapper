@@ -6,7 +6,7 @@ O projeto consiste no desenvolvimento de um sistema de acompanhamento, desenvolv
 
 ## Especificações 
 Na sequência há nossa documentação e modelagem inicial:
-<<link>>
+<<[link](https://term.ooo)>>
 
 ## Execução
 passo a passo e tal
@@ -24,8 +24,9 @@ passo a passo e tal
 - João Vitor Farias - *Vice coordenador*
 
 - Miguel Rodrigues Botelho
+
+- Nicolas Cipriano Silva de Oliveira
   
 - Otávio Salomão Rocha
 
-- Nicolas Cipriano Silva de Oliveira
 
