@@ -4,7 +4,7 @@ from linkedin import Linkedin
 from lattes import Lattes
 
 class Database:
-    def __init__(self, db_name='database.db'):
+    def __init__(self, db_name='db/database.db'):
         self.db_name = db_name
     
     def criarTabelas(self):
