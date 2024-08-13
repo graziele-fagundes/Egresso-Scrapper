@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import unittest
 from utils import setup_driver
 from lattes import Lattes
@@ -19,7 +23,7 @@ class TestVarredura(unittest.TestCase):
         self.mock_egresso = MagicMock(spec=Egresso)
         self.mock_egresso.nome = self.faker.name()
         self.varredura = Varredura(egresso=self.mock_egresso)
-        self.mock_driver = setup_driver(False)
+        self.mock_driver = setup_driver(True)
  
     def test_iniciar_varredura(self):
         self.varredura.iniciarVarredura(self.mock_driver)

@@ -1,7 +1,10 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import unittest
-from unittest.mock import patch
 from faker import Faker
-from utils import setup_driver, get_url_in_string  
+from utils import get_url_in_string  
 
 class TestUtils(unittest.TestCase):
 

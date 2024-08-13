@@ -87,14 +87,19 @@ class App:
         self.senha_entry = tk.Entry(self.root, show="*")
         self.senha_entry.grid(row=2, column=1, padx=10, pady=10)
 
+        cancelar_button = tk.Button(self.root, text="Cancelar", command=self.create_login_screen)
+        cancelar_button.grid(row=3, column=0, pady=10, padx=20)
         register_button = tk.Button(self.root, text="Registrar", command=self.validate_register)
-        register_button.grid(row=3, columnspan=2, pady=10)
+        register_button.grid(row=3, column=1, pady=10)
 
     def validate_register(self):
         nome = self.nome_entry.get()
         email = self.email_entry.get()
         senha = self.senha_entry.get()
 
+        if not nome or not email or not senha:
+            messagebox.showerror("Erro", "Preencha todos os campos")
+            return
         try:
             auth.criarUsuario(nome, email, senha)
             self.create_login_screen()
@@ -186,7 +191,7 @@ class App:
         def tarefa_varredura():
             self.root.config(cursor="watch")
             varredura = Varredura(egresso)
-            varredura.iniciarVarredura(setup_driver(True))
+            varredura.iniciarVarredura(setup_driver(False))
             self.show_varredura_results(varredura, varredura.lattes, varredura.linkedin)
             self.root.config(cursor="")
 
