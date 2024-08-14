@@ -50,14 +50,14 @@ python main.py
 
 # 👥 **Integrantes** 👥
 
-- Graziele Fagundes Martins - *Coordenadora*
+- Graziele Fagundes Martins - Back-end - *Coordenadora*
 
-- João Vitor Farias - *Vice coordenador*
+- João Vitor Farias - Back-end - *Vice coordenador*
 
-- Miguel Rodrigues Botelho
+- Miguel Rodrigues Botelho - Back-end / Diagramação
 
-- Nicolas Cipriano Silva de Oliveira
+- Nicolas Cipriano Silva de Oliveira - Testes
   
-- Otávio Salomão Rocha
+- Otávio Salomão Rocha - Front-end
 
 
