@@ -6,7 +6,9 @@ O projeto consiste no desenvolvimento de um sistema de acompanhamento, desenvolv
 
 ## Especificações ⚙️
 Na sequência, há nossa documentação e modelagem inicial:
+
 Documentação Inicial:
+
 
 <<[Modelagem Inicial](https://docs.google.com/document/d/1l74GCJGOI7JsWTQGyaw5384TMzZaYXtxlSSnZeAI6wk/edit?usp=sharing)>>
 
