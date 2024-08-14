@@ -201,7 +201,7 @@ class App:
     def show_varredura_results(self, varredura, resultados_lattes, resultados_linkedin):
         varredura_window = tk.Toplevel(self.root)
         varredura_window.title("Resultados da Varredura para " + varredura.egresso.nome)
-        varredura_window.geometry("500x300")
+        varredura_window.geometry("500x500")
         self.center_window(varredura_window)
 
         tk.Label(varredura_window, text="Lattes (double click):").pack(pady=10)
@@ -224,6 +224,19 @@ class App:
                 
         listbox.bind("<Double-1>", on_select_lattes)
 
+        def copy_lattes_selection():
+            selected_index = listbox.curselection()
+            if selected_index:
+                index = selected_index[0]
+                selected_text = listbox.get(index)
+                _, url = selected_text.split(' - ', 1)
+                varredura_window.clipboard_clear()
+                varredura_window.clipboard_append(url)
+                varredura_window.update()
+
+        copy_button_lattes = tk.Button(varredura_window, text="Copiar Seleção Lattes", command=copy_lattes_selection)
+        copy_button_lattes.pack(pady=5)
+
         tk.Label(varredura_window, text="Linkedin (double click):").pack(pady=10)
 
         listbox2 = tk.Listbox(varredura_window, height=5)
@@ -243,6 +256,19 @@ class App:
                 listbox2.itemconfig(index, fg="red", bg="yellow", selectbackground="yellow", selectforeground="red")
         
         listbox2.bind("<Double-1>", on_select_linkedin)
+
+        def copy_linkedin_selection():
+            selected_index = listbox2.curselection()
+            if selected_index:
+                index = selected_index[0]
+                selected_text = listbox2.get(index)
+                _, url = selected_text.split(' - ', 1)
+                varredura_window.clipboard_clear()
+                varredura_window.clipboard_append(url)
+                varredura_window.update()
+
+        copy_button_linkedin = tk.Button(varredura_window, text="Copiar Seleção Linkedin", command=copy_linkedin_selection)
+        copy_button_linkedin.pack(pady=5)
 
         def on_close():
             varredura_window.destroy()
