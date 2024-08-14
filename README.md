@@ -11,7 +11,7 @@ Documentação Inicial:
 <<[Modelagem Inicial](https://docs.google.com/document/d/1l74GCJGOI7JsWTQGyaw5384TMzZaYXtxlSSnZeAI6wk/edit?usp=sharing)>>
 
 Documentação Final:
-<<[link](https://term.ooo)>>
+<<[not ready](https://term.ooo)>>
 
 
 ## Execução ▶️
