@@ -6,8 +6,13 @@ O projeto consiste no desenvolvimento de um sistema de acompanhamento, desenvolv
 
 ## Especificações ⚙️
 Na sequência, há nossa documentação e modelagem inicial:
+Documentação Inicial:
+
+<<[Modelagem Inicial](https://docs.google.com/document/d/1l74GCJGOI7JsWTQGyaw5384TMzZaYXtxlSSnZeAI6wk/edit?usp=sharing)>>
+
+Documentação Final:
 <<[link](https://term.ooo)>>
-<<[link](https://contexto.me)>>
+
 
 ## Execução ▶️
 Antes de executar o projeto, é essencial obter o pacote que permita a execução de arquivos em Python no seu computar, bem como certificar que as bibliotecas que utilizamos tenham sido devidamente instaladas. As bibliotecas necessárias são: tkinter, selenium e faker.
