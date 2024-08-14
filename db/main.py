@@ -255,11 +255,10 @@ class Database:
                     raise ValueError("Lattes ID não encontrado.")
             
             # Atualizar os campos Linkedin e Lattes do egresso
-            cursor.execute('''
-                UPDATE Egresso
-                SET Linkedin = ?, Lattes = ?
-                WHERE ID = ?
-            ''', (novo_linkedin_id, novo_lattes_id, egresso_id))
+            if novo_linkedin_id is not None:
+                cursor.execute('UPDATE Egresso SET Linkedin = ? WHERE ID = ?', (novo_linkedin_id, egresso_id))
+            if novo_lattes_id is not None:
+                cursor.execute('UPDATE Egresso SET Lattes = ? WHERE ID = ?', (novo_lattes_id, egresso_id))
 
             # Commit da transação
             conn.commit()

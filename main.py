@@ -152,6 +152,8 @@ class App:
             print("\nEgressos encontrados no banco de dados")
         self.display_egressos()
 
+        self.show_varredura_results(Varredura(self.egressos[0]), [], [])
+
     def buscar_egressos(self):
         self.root.config(cursor="watch")
         db.deleteEgressos()
@@ -201,16 +203,16 @@ class App:
     def show_varredura_results(self, varredura, resultados_lattes, resultados_linkedin):
         varredura_window = tk.Toplevel(self.root)
         varredura_window.title("Resultados da Varredura para " + varredura.egresso.nome)
-        varredura_window.geometry("500x500")
+        varredura_window.geometry("500x300")
         self.center_window(varredura_window)
 
-        tk.Label(varredura_window, text="Lattes (double click):").pack(pady=10)
+        tk.Label(varredura_window, text="Lattes (double click):").pack(pady=5)
 
-        listbox = tk.Listbox(varredura_window, height=5)
-        listbox.pack(fill=tk.X, expand=True, padx=10, pady=10)
+        listbox = tk.Listbox(varredura_window, height=4)
+        listbox.pack(fill=tk.X, expand=True, padx=10, pady=0)
 
         for i, resultado in enumerate(resultados_lattes):
-            listbox.insert(tk.END, f"{resultado.nome} - {resultado.url}")
+            listbox.insert(tk.END, f"{resultado.nome} - {resultado.url} - {resultado.resumo}")
 
         def on_select_lattes(event):
             selected_index = listbox.curselection()
@@ -237,13 +239,16 @@ class App:
         copy_button_lattes = tk.Button(varredura_window, text="Copiar Seleção Lattes", command=copy_lattes_selection)
         copy_button_lattes.pack(pady=5)
 
-        tk.Label(varredura_window, text="Linkedin (double click):").pack(pady=10)
+        divisor = tk.Frame(varredura_window, height=2, bd=1, relief=tk.SUNKEN)
+        divisor.pack(fill=tk.X, padx=10, pady=5)
 
-        listbox2 = tk.Listbox(varredura_window, height=5)
-        listbox2.pack(fill=tk.X, expand=True, padx=10, pady=10)
+        tk.Label(varredura_window, text="Linkedin (double click):").pack(pady=5)
+
+        listbox2 = tk.Listbox(varredura_window, height=4)
+        listbox2.pack(fill=tk.X, expand=True, padx=10, pady=0)
 
         for i, resultado in enumerate(resultados_linkedin):
-            listbox2.insert(tk.END, f"{resultado.nome} - {resultado.url}")
+            listbox2.insert(tk.END, f"{resultado.nome} - {resultado.url} - {resultado.resumo}")
         
         def on_select_linkedin(event):
             selected_index = listbox2.curselection()
