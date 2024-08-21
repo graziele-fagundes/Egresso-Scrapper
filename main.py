@@ -1,15 +1,16 @@
+import time
+from threading import Thread
+
+import tkinter as tk
+from tkinter import messagebox
+
+from selenium.webdriver.common.by import By
+
 from auth import Auth
 from egresso import Egresso
 from varredura import Varredura
 from db.main import Database
 from utils import setup_driver
-
-from selenium.webdriver.common.by import By
-
-import tkinter as tk
-from tkinter import messagebox
-from threading import Thread
-import time
 
 
 def get_egressos():
@@ -51,9 +52,7 @@ class App:
 
     def create_login_screen(self):
         self.clear_screen()
-        self.root.title("Login")
-        self.root.geometry("250x170")
-        self.center_window(self.root)
+        self.setup_screen("Login", "250x170")
         
         tk.Label(self.root, text="Email:").grid(row=0, column=0, padx=10, pady=10)
         self.email_entry = tk.Entry(self.root)
@@ -63,17 +62,12 @@ class App:
         self.senha_entry = tk.Entry(self.root, show="*")
         self.senha_entry.grid(row=1, column=1, padx=10, pady=10)
 
-        login_button = tk.Button(self.root, text="Login", command=self.validate_login)
-        login_button.grid(row=2, columnspan=2, pady=5)
-
-        register_button = tk.Button(self.root, text="Registrar", command=self.create_register_screen)
-        register_button.grid(row=3, columnspan=2, pady=5)
+        tk.Button(self.root, text="Login", command=self.validate_login).grid(row=2, columnspan=2, pady=5)
+        tk.Button(self.root, text="Registrar", command=self.create_register_screen).grid(row=3, columnspan=2, pady=5)
 
     def create_register_screen(self):
         self.clear_screen()
-        self.root.title("Registrar")
-        self.root.geometry("250x170")
-        self.center_window(self.root)
+        self.setup_screen("Registrar", "250x170")
         
         tk.Label(self.root, text="Nome:").grid(row=0, column=0, padx=10, pady=10)
         self.nome_entry = tk.Entry(self.root)
@@ -87,10 +81,8 @@ class App:
         self.senha_entry = tk.Entry(self.root, show="*")
         self.senha_entry.grid(row=2, column=1, padx=10, pady=10)
 
-        cancelar_button = tk.Button(self.root, text="Cancelar", command=self.create_login_screen)
-        cancelar_button.grid(row=3, column=0, pady=10, padx=20)
-        register_button = tk.Button(self.root, text="Registrar", command=self.validate_register)
-        register_button.grid(row=3, column=1, pady=10)
+        tk.Button(self.root, text="Cancelar", command=self.create_login_screen).grid(row=3, column=0, pady=10, padx=20)
+        tk.Button(self.root, text="Registrar", command=self.validate_register).grid(row=3, column=1, pady=10)
 
     def validate_register(self):
         nome = self.nome_entry.get()
@@ -117,22 +109,25 @@ class App:
         else:
             messagebox.showerror("Erro", "Credenciais inválidas")
 
-    def center_window(self, window):
-        window.update_idletasks()
-        width = window.winfo_width()
-        height = window.winfo_height()
-        screen_width = window.winfo_screenwidth()
-        screen_height = window.winfo_screenheight()
+    def center_window(self):
+        self.root.update_idletasks()
+        width = self.root.winfo_width()
+        height = self.root.winfo_height()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
         x = (screen_width - width) // 2
         y = (screen_height - height) // 2
-        window.geometry(f"{width}x{height}+{x}+{y}")
+        self.root.geometry(f"{width}x{height}+{x}+{y}")
+    
+    def setup_screen(self, title, geometry):
+        self.root.title(title)
+        self.root.geometry(geometry)
+        self.center_window()
 
     def create_egressos_screen(self):
         self.clear_screen()
-        self.root.title("Egresso Scrapper")
-        self.root.geometry("650x600")
-        self.center_window(self.root)
-
+        self.setup_screen("Egresso Scrapper", "650x600")
+        
         tk.Button(self.root, text="Buscar Egressos", command=self.buscar_egressos).pack(pady=10)
 
         canvas = tk.Canvas(self.root)
@@ -146,20 +141,19 @@ class App:
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
         canvas.configure(yscrollcommand=scrollbar.set)
-
         self.egressos = db.getEgressos()
         if self.egressos:
             print("\nEgressos encontrados no banco de dados")
         self.display_egressos()
 
-        self.show_varredura_results(Varredura(self.egressos[0]), [], [])
-
     def buscar_egressos(self):
         self.root.config(cursor="watch")
+        self.root.update_idletasks()
         db.deleteEgressos()
         self.egressos = get_egressos()
         self.display_egressos()
         self.root.config(cursor="")
+
         
     def display_egressos(self):
         for widget in self.egressos_list_frame.winfo_children():
@@ -177,12 +171,9 @@ class App:
                 label_text += f"{egresso.linkedin.nome} - {egresso.linkedin.url}"
 
             # Cria o Label e o posiciona na grid com a expansão adequada
-            label = tk.Label(frame, text=label_text, anchor="w", justify="left")
-            label.grid(row=0, column=0, sticky="w", padx=10)
-
             # Cria o Button e o posiciona na grid
-            varredura_button = tk.Button(frame, text="Varredura", command=lambda e=egresso: self.varrer_egresso(e))
-            varredura_button.grid(row=0, column=1, padx=10, sticky="e")
+            tk.Label(frame, text=label_text, anchor="w", justify="left").grid(row=0, column=0, sticky="w", padx=10)
+            tk.Button(frame, text="Varredura", command=lambda e=egresso: self.varrer_egresso(e)).grid(row=0, column=1, padx=10, sticky="e")
 
             # Configura as colunas para ajustar o layout
             frame.grid_columnconfigure(0, weight=1)
