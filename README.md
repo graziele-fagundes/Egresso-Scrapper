@@ -9,7 +9,9 @@ Na sequência, há nossa documentação e modelagem inicial juntamente com nosso
 
 [Documentação](https://docs.google.com/document/d/1l74GCJGOI7JsWTQGyaw5384TMzZaYXtxlSSnZeAI6wk/edit?usp=sharing)
 
-[Relatório de Progresso](https://docs.google.com/document/d/1fqcVKxnmA2KWVl0yUlmM4zz6AHGOnYq6EIa9r7_3WOo/edit?usp=sharing)
+[Relatório de Progresso - Semana 1](https://docs.google.com/document/d/1fqcVKxnmA2KWVl0yUlmM4zz6AHGOnYq6EIa9r7_3WOo/edit?usp=sharing)
+[Relatório de Progresso - Semana 2](https://docs.google.com/document/d/1DDlEtZ9LCBRse-dcp0dt9T_94y5H5Wlr_IGAElY_ECA/edit?usp=sharing)
+
 ## Execução ▶️
 Antes de executar o projeto, é essencial obter o pacote que permita a execução de arquivos em Python no seu computar, bem como certificar que as bibliotecas que utilizamos tenham sido devidamente instaladas. As bibliotecas necessárias são: tkinter, selenium e faker.
 
