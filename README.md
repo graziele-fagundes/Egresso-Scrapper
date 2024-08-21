@@ -5,7 +5,7 @@ Este repositório contém o projeto final desenvolvido como parte da disciplina 
 O projeto consiste no desenvolvimento de um sistema de acompanhamento, desenvolvido em python, permitindo que você interaja a partir de uma interface. Desenvolvido especificamente utilizando a ferramenta *Visual Studio Code* e é recomendado a utilização do próprio para execução.
 
 ## Especificações ⚙️
-Na sequência, há nossa documentação e modelagem inicial:
+Na sequência, há nossa documentação e modelagem inicial juntamente com nosso relatório de progresso:
 
 [Documentação](https://docs.google.com/document/d/1l74GCJGOI7JsWTQGyaw5384TMzZaYXtxlSSnZeAI6wk/edit?usp=sharing)
 
