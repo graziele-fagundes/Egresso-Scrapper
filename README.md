@@ -5,13 +5,18 @@ Este repositório contém o projeto final desenvolvido como parte da disciplina 
 O projeto consiste no desenvolvimento de um sistema de acompanhamento, desenvolvido em python, permitindo que você interaja a partir de uma interface. Desenvolvido especificamente utilizando a ferramenta *Visual Studio Code* e é recomendado a utilização do próprio para execução.
 
 ## Especificações ⚙️
-Na sequência, há nossa documentação e modelagem inicial juntamente com nosso relatório de progresso:
+Na sequência, há nossa documentação e modelagem, seu desenvolvimento foi dividido da seguinte forma:
 
-[Documentação](https://docs.google.com/document/d/1l74GCJGOI7JsWTQGyaw5384TMzZaYXtxlSSnZeAI6wk/edit?usp=sharing)
+[Documentação Inicial](https://docs.google.com/document/d/1l74GCJGOI7JsWTQGyaw5384TMzZaYXtxlSSnZeAI6wk/edit?usp=sharing)
+
+[Documentação Final](https://docs.google.com/document/d/1l74GCJGOI7JsWTQGyaw5384TMzZaYXtxlSSnZeAI6wk/edit?usp=sharing)(Ajustar quando fizer)
 
 [Relatório de Progresso - Semana 1](https://docs.google.com/document/d/1fqcVKxnmA2KWVl0yUlmM4zz6AHGOnYq6EIa9r7_3WOo/edit?usp=sharing)
 
 [Relatório de Progresso - Semana 2](https://docs.google.com/document/d/1DDlEtZ9LCBRse-dcp0dt9T_94y5H5Wlr_IGAElY_ECA/edit?usp=sharing)
+
+[Relatório Final](https://docs.google.com/document/d/1DDlEtZ9LCBRse-dcp0dt9T_94y5H5Wlr_IGAElY_ECA/edit?usp=sharing)(Ajustar quando fizer)
+
 
 ## Execução ▶️
 Antes de executar o projeto, é essencial obter o pacote que permita a execução de arquivos em Python no seu computar, bem como certificar que as bibliotecas que utilizamos tenham sido devidamente instaladas. As bibliotecas necessárias são: tkinter, selenium e faker.
