@@ -29,6 +29,8 @@ sudo apt update
 sudo apt-get install python3.9
 sudo apt install python3-tk
 sudo apt install python3-pip
+sudo apt install python3-pil
+sudo apt install python3-pil.imagetk
 pip install selenium
 pip install faker
 ```
@@ -43,6 +45,7 @@ Precisamos também garantir os pacotes estejam devidamente instalados. Para inst
 No Windows, basta usar o pip para baixar e instalar os pacotes extra necessários para a execução.
 ```
 pip install tk
+pip install pillow
 pip install selenium
 pip install faker
 ```
