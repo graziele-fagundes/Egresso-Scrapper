@@ -11,6 +11,7 @@ from egresso import Egresso
 from varredura import Varredura
 from db.main import Database
 from utils import setup_driver
+from PIL import Image, ImageTk
 
 
 def get_egressos():
@@ -118,7 +119,17 @@ class App:
         x = (screen_width - width) // 2
         y = (screen_height - height) // 2
         self.root.geometry(f"{width}x{height}+{x}+{y}")
-    
+
+    def center_other_window(self, window):
+        window.update_idletasks()
+        width = window.winfo_width()
+        height = window.winfo_height()
+        screen_width = window.winfo_screenwidth()
+        screen_height = window.winfo_screenheight()
+        x = (screen_width - width) // 2
+        y = (screen_height - height) // 2
+        window.geometry(f"{width}x{height}+{x}+{y}")
+
     def setup_screen(self, title, geometry):
         self.root.title(title)
         self.root.geometry(geometry)
@@ -153,7 +164,6 @@ class App:
         self.egressos = get_egressos()
         self.display_egressos()
         self.root.config(cursor="")
-
         
     def display_egressos(self):
         for widget in self.egressos_list_frame.winfo_children():
@@ -180,6 +190,43 @@ class App:
             frame.grid_columnconfigure(1, weight=0)
 
     def varrer_egresso(self, egresso):
+        # Cria a janela de progresso
+        self.progress_window = tk.Toplevel(self.root)
+        self.progress_window.title("Progresso da Varredura")
+        self.progress_window.geometry("300x300")
+        self.center_other_window(self.progress_window)
+
+        # Define o tamanho máximo da imagem
+        max_width, max_height = 100, 200  # Defina as dimensões desejadas
+
+        # Carrega a imagem original e redimensiona
+        original_image = Image.open("images/broom.png")
+        original_image = original_image.resize((max_width, max_height), Image.ANTIALIAS)  # Redimensiona a imagem
+
+        mirrored_image = original_image.transpose(Image.FLIP_LEFT_RIGHT)  # Cria a versão espelhada da imagem
+
+        # Converte as imagens para PhotoImage do Tkinter
+        original_photo = ImageTk.PhotoImage(original_image)
+        mirrored_photo = ImageTk.PhotoImage(mirrored_image)
+
+        # Label para exibir a imagem
+        self.image_label = tk.Label(self.progress_window)
+        self.image_label.pack(pady=10)
+
+        # Função para alternar a imagem
+        def update_image(mirrored):
+            if mirrored:
+                self.image_label.configure(image=mirrored_photo)
+            else:
+                self.image_label.configure(image=original_photo)
+            self.progress_window.after(500, update_image, not mirrored)  # Alterna a cada 500 ms
+
+        # Inicia a alternância da imagem
+        self.progress_window.after(0, update_image, False)
+
+        # Mensagem de varredura em andamento
+        tk.Label(self.progress_window, text="Varredura em andamento...").pack(pady=10)
+
         # Define a função de varredura em uma thread separada
         def tarefa_varredura():
             self.root.config(cursor="watch")
@@ -187,15 +234,16 @@ class App:
             varredura.iniciarVarredura(setup_driver(False))
             self.show_varredura_results(varredura, varredura.lattes, varredura.linkedin)
             self.root.config(cursor="")
+            self.progress_window.destroy()
 
         # Inicia a thread para executar a tarefa de varredura
         Thread(target=tarefa_varredura).start()
 
-    def show_varredura_results(self, varredura, resultados_lattes, resultados_linkedin):
+    def show_varredura_results(self, varredura, resultados_lattes, resultados_linkedin):          
         varredura_window = tk.Toplevel(self.root)
         varredura_window.title("Resultados da Varredura para " + varredura.egresso.nome)
         varredura_window.geometry("500x300")
-        self.center_window(varredura_window)
+        self.center_other_window(varredura_window)
 
         tk.Label(varredura_window, text="Lattes (double click):").pack(pady=5)
 
@@ -222,7 +270,7 @@ class App:
             if selected_index:
                 index = selected_index[0]
                 selected_text = listbox.get(index)
-                _, url = selected_text.split(' - ', 1)
+                _, url, _ = selected_text.split(' - ', 2)
                 varredura_window.clipboard_clear()
                 varredura_window.clipboard_append(url)
                 varredura_window.update()
@@ -258,7 +306,7 @@ class App:
             if selected_index:
                 index = selected_index[0]
                 selected_text = listbox2.get(index)
-                _, url = selected_text.split(' - ', 1)
+                _, url, _ = selected_text.split(' - ', 2)
                 varredura_window.clipboard_clear()
                 varredura_window.clipboard_append(url)
                 varredura_window.update()
