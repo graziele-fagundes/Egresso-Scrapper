@@ -7,15 +7,15 @@ O projeto consiste no desenvolvimento de um sistema de acompanhamento, desenvolv
 ## Especificações ⚙️
 Na sequência, há nossa documentação e modelagem, seu desenvolvimento foi dividido da seguinte forma:
 
-[Documentação Inicial](https://docs.google.com/document/d/1l74GCJGOI7JsWTQGyaw5384TMzZaYXtxlSSnZeAI6wk/edit?usp=sharing)
+[Documentação Inicial](https://docs.google.com/document/d/1l74GCJGOI7JsWTQGyaw5384TMzZaYXtxlSSnZeAI6wk/edit?usp=sharing).
 
-[Documentação Final](https://docs.google.com/document/d/1l74GCJGOI7JsWTQGyaw5384TMzZaYXtxlSSnZeAI6wk/edit?usp=sharing)(Ajustar quando fizer)
+[Documentação Final](https://docs.google.com/document/d/110NCnd1LK7iGmVGfyhijdiJPMc7Pb2VMput-IVnKNy8/edit?usp=sharing).
 
-[Relatório de Progresso - Semana 1](https://docs.google.com/document/d/1fqcVKxnmA2KWVl0yUlmM4zz6AHGOnYq6EIa9r7_3WOo/edit?usp=sharing)
+[Relatório de Progresso - Semana 1](https://docs.google.com/document/d/1fqcVKxnmA2KWVl0yUlmM4zz6AHGOnYq6EIa9r7_3WOo/edit?usp=sharing).
 
-[Relatório de Progresso - Semana 2](https://docs.google.com/document/d/1DDlEtZ9LCBRse-dcp0dt9T_94y5H5Wlr_IGAElY_ECA/edit?usp=sharing)
+[Relatório de Progresso - Semana 2](https://docs.google.com/document/d/1DDlEtZ9LCBRse-dcp0dt9T_94y5H5Wlr_IGAElY_ECA/edit?usp=sharing).
 
-[Relatório Final](https://docs.google.com/document/d/1DDlEtZ9LCBRse-dcp0dt9T_94y5H5Wlr_IGAElY_ECA/edit?usp=sharing)(Ajustar quando fizer)
+[Relatório Final](https://docs.google.com/document/d/1v5EEPrdYQOAsxH3gfcaGDYwsHFn3im87enMI8QrhtGQ/edit?usp=sharing).
 
 
 ## Execução ▶️
