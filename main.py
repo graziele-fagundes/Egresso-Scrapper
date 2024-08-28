@@ -14,7 +14,9 @@ from utils import setup_driver
 from PIL import Image, ImageTk
 
 
-def get_egressos():
+def get_egressos(): 
+    # Inicializa o driver, acessando o site do curso, na aba de egressos
+    # coletando informações do egresso e retornando uma lista de objetos
     driver = setup_driver(True)
 
     print("Inicializando varredura de egressos")
@@ -40,11 +42,12 @@ def get_egressos():
     driver.quit()
     return egressos
 
-db = Database()
-auth = Auth(db)
-usuario = None
+db = Database() # Inicializa a conexão com o banco de dados
+auth = Auth(db)  # Inicializa o sistema de autenticação com o banco de dados
+usuario = None # Variável para armazenar o usuário autenticado
 
 class App:
+    # Inicializa a aplicação Tkinter, criando a janela principal e a tela de login
     def __init__(self, root):
         self.root = root
         self.root.title("Sistema de Egressos")
@@ -52,6 +55,7 @@ class App:
         self.create_login_screen()
 
     def create_login_screen(self):
+        # Cria a tela de login
         self.clear_screen()
         self.setup_screen("Login", "250x170")
         
@@ -67,6 +71,7 @@ class App:
         tk.Button(self.root, text="Registrar", command=self.create_register_screen).grid(row=3, columnspan=2, pady=5)
 
     def create_register_screen(self):
+        # Cria a tela de registro
         self.clear_screen()
         self.setup_screen("Registrar", "250x170")
         
@@ -86,6 +91,7 @@ class App:
         tk.Button(self.root, text="Registrar", command=self.validate_register).grid(row=3, column=1, pady=10)
 
     def validate_register(self):
+        # Valida as informações de registro e tenta criar um novo usuário no sistema
         nome = self.nome_entry.get()
         email = self.email_entry.get()
         senha = self.senha_entry.get()
@@ -100,6 +106,7 @@ class App:
             messagebox.showerror("Erro", "Erro ao criar usuário")
 
     def validate_login(self):
+        # Valida as credenciais do login do usuário
         email = self.email_entry.get()
         senha = self.senha_entry.get()
 
@@ -111,6 +118,7 @@ class App:
             messagebox.showerror("Erro", "Credenciais inválidas")
 
     def center_window(self):
+        # Necessário para centralizar a janela principal
         self.root.update_idletasks()
         width = self.root.winfo_width()
         height = self.root.winfo_height()
@@ -121,6 +129,7 @@ class App:
         self.root.geometry(f"{width}x{height}+{x}+{y}")
 
     def center_other_window(self, window):
+        # Necessário para centralizar as janelas secundárias
         window.update_idletasks()
         width = window.winfo_width()
         height = window.winfo_height()
@@ -131,11 +140,13 @@ class App:
         window.geometry(f"{width}x{height}+{x}+{y}")
 
     def setup_screen(self, title, geometry):
+        # Configura a tela titulo/dimensão
         self.root.title(title)
         self.root.geometry(geometry)
         self.center_window()
 
     def create_egressos_screen(self):
+        # Cria a tela de exibição de egressos
         self.clear_screen()
         self.setup_screen("Egresso Scrapper", "650x600")
         
@@ -158,6 +169,7 @@ class App:
         self.display_egressos()
 
     def buscar_egressos(self):
+        # Executa a busca dos egressos através das funções get_egressos e exibe os resultados.
         self.root.config(cursor="watch")
         self.root.update_idletasks()
         db.deleteEgressos()
@@ -166,6 +178,7 @@ class App:
         self.root.config(cursor="")
         
     def display_egressos(self):
+        # Exibe os egressos 
         for widget in self.egressos_list_frame.winfo_children():
             widget.destroy()
 
