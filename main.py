@@ -201,7 +201,7 @@ class App:
 
         # Carrega a imagem original e redimensiona
         original_image = Image.open("images/broom.png")
-        original_image = original_image.resize((max_width, max_height), Image.ANTIALIAS)  # Redimensiona a imagem
+        original_image = original_image.resize((max_width, max_height))  # Redimensiona a imagem
 
         mirrored_image = original_image.transpose(Image.FLIP_LEFT_RIGHT)  # Cria a versão espelhada da imagem
 
@@ -231,7 +231,7 @@ class App:
         def tarefa_varredura():
             self.root.config(cursor="watch")
             varredura = Varredura(egresso)
-            varredura.iniciarVarredura(setup_driver(False))
+            varredura.iniciarVarredura(setup_driver(True))
             self.show_varredura_results(varredura, varredura.lattes, varredura.linkedin)
             self.root.config(cursor="")
             self.progress_window.destroy()
