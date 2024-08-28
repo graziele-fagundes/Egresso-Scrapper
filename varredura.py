@@ -9,6 +9,7 @@ from lattes import Lattes
 from linkedin import Linkedin
 
 class Varredura:
+    # Inicializa a varredura com o foco no egresso a ser varrido
     def __init__(self, egresso):
         self.data = date.today()
         self.egresso = egresso
@@ -17,12 +18,15 @@ class Varredura:
         self.lattes = []    
     
     def filtrarVarreduraLattes(self, index):
+        # Atualiza as informações de Lattes do egresso
         self.egresso.atualizarLattes(self.lattes[index])
 
     def filtrarVarreduraLinkedin(self, index):
+        # Atualiza as informações de LinkedIn do egresso
         self.egresso.atualizarLinkedin(self.linkedin[index])
 
     def iniciarVarredura(self, driver):
+        # Inicia o processo de varredura para um egresso
         print(f'Iniciando varredura para {self.egresso.nome}')
 
         try:
@@ -42,6 +46,8 @@ class Varredura:
         return
     
     def varreduraLinkedin(self, driver):
+        #  Realiza a busca no LinkedIn pelo nome do egresso utilizando o Google,
+        #  e coleta informações dos primeiros resultados encontrados
         query = self.egresso.nome + ' linkedin'
 
         driver.get('https://www.google.com/')
@@ -110,6 +116,8 @@ class Varredura:
         return
 
     def varreduraLattes(self, driver):
+        # Realiza a busca na plataforma Lattes pelo nome do egresso e coleta informações
+        # dos primeiros resultados encontrados
         query = self.egresso.nome
 
         driver.get('https://buscatextual.cnpq.br/buscatextual/busca.do?metodo=apresentar')
