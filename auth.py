@@ -1,7 +1,7 @@
 from usuario import Usuario
 from db.main import Database
 
-class Auth:
+class Auth: # Classe de Autenticação de login/ Criação de usuário
     def __init__(self, db: Database):
         self.db = db
         pass
